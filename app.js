@@ -22,8 +22,12 @@ app.use(mongoSanitize());
 app.use(xss());
 app.use(hpp());
 
+app.use(express.json({limit:'50mb'}));
+app.use(express.urlencoded({limit:'50mb', extended:true}));
+
 //Body parser
 app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({extended:true}));
 
 // Rate Limiter
 const limiter = rateLimit({windowMs:15*60*24, max:3000});
@@ -37,7 +41,7 @@ mongoose.connect(url, option).then(()=>{
     console.log(error);
 });
 
-app.use("/api/v1", router);
+app.use("/api", router);
 
 
 app.use(express.static('client/dist'));

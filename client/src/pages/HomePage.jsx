@@ -1,10 +1,15 @@
 import React from 'react';
 import MasterLayout from '../components/MasterLayout';
+import AllFoods from "../components/AllFoods.jsx";
+
 
 const HomePage = () => {
+
+
+
     return (
         <MasterLayout>
-            <h1>THis is home page jsx </h1>
+            <AllFoods/>
         </MasterLayout>
     );
 };

@@ -17,10 +17,12 @@ exports.createProduct= async (req, res)=>{
 //Read the data of a single product:
 
 exports.readProduct= async (req, res)=>{
+    //return res.status(200).json({total:"100000", name:"repon "});
     try{
         //const {id} = req.params;
+
         const data = await productModel.find();
-        res.json({status: "success", message: "Single product read success ... ", data:data});
+        res.json({status: "success", message: "Single product read success ... ", product:data});
     }catch(error){
         res.json({status: "Error", message: "Single product read fail ... "});
     }
@@ -28,16 +30,30 @@ exports.readProduct= async (req, res)=>{
 
 
 
-//Delete a product based on a specific ID:
 
-exports.deleteSingleProduct= async (req, res)=>{
+exports.readSingleProduct= async (req, res)=>{
     try{
         const {id} = req.params;
-        await productModel.deleteOne({_id: id }); 
-        
-        res.json({status: "success", message: "Single product delete success ... "});
+        const data=await productModel.find({_id:id});
+        res.json({status: "success", message: "Single product read success ... ", data:data});
     }catch(error){
-        res.json({status: "Error", message: "Single product delete fail ... "});
+        res.json({status: "Error", message: "Single product read fail ... ", error:error});
+    }
+}
+
+
+
+
+//Update a product based on a specific ID:
+
+exports.updateProduct= async (req, res)=>{
+    try{
+        const {id} = req.params;
+        const reqBody=req.body;
+        const data=await productModel.updateOne({_id:id}, reqBody);
+        res.json({status: "success", message: "Single product update success ... ", data:data});
+    }catch(error){
+        res.json({status: "Error", message: "Single product update fail ... ", error:error});
     }
 }
 
@@ -45,14 +61,16 @@ exports.deleteSingleProduct= async (req, res)=>{
 
 
 
-//Update a product based on a specific ID:
 
-exports.updateSingleProduct= async (req, res)=>{
+
+//Delete a product based on a specific ID:
+exports.deleteProduct= async (req, res)=>{
     try{
         const {id} = req.params;
-        await productModel.updateOne({_id:id}, reqBody);
-        res.json({status: "success", message: "Single product update success ... "});
+        const data=await productModel.deleteOne({_id: id });
+        
+        res.json({status: "success", message: "Single product delete success ... ", data:data});
     }catch(error){
-        res.json({status: "Error", message: "Single product update fail ... "});
+        res.json({status: "Error", message: "Single product delete fail ... "});
     }
 }
